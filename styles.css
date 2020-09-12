@@ -1,0 +1,85 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  color: white;
+  font-size: 1.2rem;
+}
+
+body {
+  background: #c2c2d6;
+}
+
+button {
+  all: unset;
+  text-align: center;
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-rows: minmax(150px, auto);
+  margin-top: 3%;
+}
+
+.calc-grid {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: repeat(4, 90px);
+  grid-template-rows: minmax(110px, auto) repeat(5, 80px);
+  border: 4px solid black;
+  box-shadow: 0px 0px 0px 2px rgb(71, 71, 71);
+}
+
+.calc-grid > button {
+  cursor: pointer;
+  border: none;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.calc-grid > button.numbers {
+  background: #4d4d4d;
+}
+
+.calc-grid > button.operand {
+  background: #666666;
+}
+
+.calc-grid > button.equal {
+  background: #004466;
+}
+
+.calc-grid > button.ac {
+  background: #ac3939;
+}
+
+.calc-grid > button:hover {
+  color: black;
+  border: 1px solid grey;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.rowspan {
+  grid-column: span 2;
+}
+
+.colspan {
+  grid-row: span 2;
+}
+
+.screen {
+  grid-column: 1 / -1;
+  background: black;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex-direction: column;
+  word-wrap: break-word;
+  word-break: break-all;
+}
