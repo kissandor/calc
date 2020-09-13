@@ -90,6 +90,9 @@ button {
   font-family: digital-font;
 }
 
+.top-screen {
+  color: orange;
+}
 .main-screen {
   font-size: 1.8rem;
 }
