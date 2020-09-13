@@ -8,6 +8,11 @@
   font-size: 1.2rem;
 }
 
+@font-face {
+  font-family: "digital-font";
+  src: url("/font/digital-7.regular.ttf");
+}
+
 body {
   background: #c2c2d6;
 }
@@ -29,10 +34,10 @@ button {
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-template-columns: repeat(4, 90px);
-  grid-template-rows: minmax(110px, auto) repeat(5, 80px);
-  border: 4px solid black;
-  box-shadow: 0px 0px 0px 2px rgb(71, 71, 71);
+  grid-template-columns: repeat(4, 80px);
+  grid-template-rows: minmax(100px, auto) repeat(5, 70px);
+  border: 5px solid black;
+  box-shadow: 0px 0px 0px 2px rgb(95, 95, 95);
 }
 
 .calc-grid > button {
@@ -82,4 +87,9 @@ button {
   flex-direction: column;
   word-wrap: break-word;
   word-break: break-all;
+  font-family: digital-font;
+}
+
+.main-screen {
+  font-size: 1.8rem;
 }
