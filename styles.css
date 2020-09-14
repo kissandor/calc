@@ -51,6 +51,9 @@ button {
   background: #4d4d4d;
 }
 
+.calc-grid > button.comma {
+  background: #4d4d4d;
+}
 .calc-grid > button.operand {
   background: #666666;
 }
@@ -87,7 +90,7 @@ button {
   flex-direction: column;
   word-wrap: break-word;
   word-break: break-all;
-  font-family: digital-font;
+  font-family: digital-font, Orbitron;
 }
 
 .top-screen {

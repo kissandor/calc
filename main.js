@@ -1,11 +1,13 @@
 let topScreen = document.querySelector(".top-screen");
 let mainScreen = document.querySelector(".main-screen");
 let btnNumbers = document.querySelectorAll(".numbers");
+let isCommaClicked = false;
 
 //clear Button, clear the top and the main screen.
 let ac = () => {
   topScreen.innerHTML = "";
   mainScreen.innerHTML = "0";
+  isCommaClicked = false;
 };
 
 //adding event listener to the clear button to clear the screen
@@ -28,3 +30,12 @@ let displayNumbers = (btn) => {
 
 btnNumbers.forEach(displayNumbers);
 //end of displaying the numbers on the main screen
+
+//clicking on the comma
+let comma = document.querySelector(".comma");
+comma.addEventListener("click", () => {
+  if (!isCommaClicked) {
+    mainScreen.innerHTML += comma.innerHTML;
+    isCommaClicked = true;
+  }
+});
