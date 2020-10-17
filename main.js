@@ -1,92 +1,141 @@
-let topScreen = document.querySelector(".top-screen");
+//status
+const STATUS_FIRSTNUM = "firstnum",
+      STATUS_SECONDNUM = "secondnum",
+      STATUS_OPERAND = "operand",
+      STATUS_DONE = "done";
+
+//variabale to store the numbers and the variables
+let number1 = null,
+    number2 = null,
+    operand = null,
+    status = STATUS_FIRSTNUM,
+    isCOmmaCLicked = false;
+
+
+//select the number buttons
+let numberButtons = document.querySelectorAll(".numbers");
+
+
+//select the operand buttons
+let operandButtons = document.querySelectorAll(".operand");
+
+//select the screens
 let mainScreen = document.querySelector(".main-screen");
-let btnNumbers = document.querySelectorAll(".numbers");
-let isCommaClicked = false;
-let operands = document.querySelectorAll(".operand");
+let topScreenNumber = document.querySelector(".top-screen-number");
+let topScreenOperand = document.querySelector(".operand-screen");
 
-//variables to store the numbers
-let firstNumber = undefined;
-let secondNumber = 0;
-let operandToExecute = undefined;
-let resoult = 0;
 
-//clear Button, clear the top and the main screen.
-let ac = () => {
-  topScreen.innerHTML = "";
-  mainScreen.innerHTML = "0";
-  isCommaClicked = false;
+let onNumberClick = (event)=>{
+  let clickNumberButton = event.target;
+    let num = parseInt(clickNumberButton.innerText);
+    switch (status) {
+      case STATUS_FIRSTNUM:
+        setNumber1(number1 * 10 + num) ;      
+        break;
+      case STATUS_OPERAND:
+        setNumber2(number2 *10 + num);
+        status = STATUS_SECONDNUM;
+        break;
+      case STATUS_SECONDNUM:
+        setNumber2(number2 *10 + num);
+        break;
+      case STATUS_DONE:
+        clear();
+        setNumber1(number1 * 10 + num) ;
+        break;
+    }
+  
+  console.log(`number1: ${number1}, number2: ${number2}, status: ${status}`);
 };
 
-//adding event listener to the clear button to clear the screen
-let btnAc = document.querySelector(".ac");
-btnAc.addEventListener("click", ac);
-
-//dispay the click numbers on the main screen
-let displayNumbers = (btn) => {
-  btn.addEventListener("click", () => {
-    if (mainScreen.innerHTML == "0" && btn.innerHTML != 0) {
-      mainScreen.innerHTML = "";
-      mainScreen.innerHTML += btn.innerHTML;
-    } else if (mainScreen.innerHTML == "0" && btn.innerHTML == 0) {
-      return;
-      //does nothing if screen is 0 and only pressing the 0 button
-    } else {
-      mainScreen.innerHTML += btn.innerHTML;
+let onOperandClick = (event)=>{
+  let clickOperandButton = event.target;
+  let op = clickOperandButton.innerText;
+  switch (status) {
+    case STATUS_FIRSTNUM:
+      if (op == "=") {
+        break;
+      }
+      setOperand(op);
+      swichNumbers();
+      status = STATUS_OPERAND;
+      break;
+    case STATUS_SECONDNUM:
+      let resoult = eval(number1 + operand + number2);
+      number1 = resoult;
+      number2=null;
+      if (op == "=") {
+          setOperand(null);
+          setNumber1(number1);
+          topScreenNumber.innerText = "";
+          number2 = null;
+          status = STATUS_DONE;        
+      } else {
+        printResoult(resoult);
+        setOperand(op); 
+        status = STATUS_OPERAND;     
+      }
+      break;
+    case STATUS_OPERAND:
+      if(op == "="){
+        break;
+      }
+      setOperand(op);
+      break;
+    case STATUS_DONE:
+      if(op == "="){
+        break;
+      }
+      setOperand(op);
+      swichNumbers();
+      status = STATUS_OPERAND;
+      break;
     }
-  });
-};
+    console.log(`number1: ${number1}, number2: ${number2}, status: ${status}`);
+  };
+  
+  
+  numberButtons.forEach(button =>{
+    button.addEventListener("click", onNumberClick);
+  })
+  
+  operandButtons.forEach(button =>{
+    button.addEventListener("click", onOperandClick);
+  })
 
-btnNumbers.forEach(displayNumbers);
-//end of displaying the numbers on the main screen
+  
+//setter functions
+let setNumber1 = value =>{
+  number1 = value;
+  mainScreen.innerText = number1;
+}
 
-//clicking on the comma
-let comma = document.querySelector(".comma");
-comma.addEventListener("click", () => {
-  if (!isCommaClicked) {
-    mainScreen.innerHTML += comma.innerHTML;
-    isCommaClicked = true;
-  }
-});
+let setNumber2 = value =>{
+  number2 = value;
+  mainScreen.innerText = number2;
+}
+let setOperand = value =>{
+  operand = value;
+  topScreenOperand.innerText = operand;  
+}
 
-//clicking on the operands
-operands.forEach((operand) => {
-  operand.addEventListener("click", () => {
-    if (mainScreen.innerHTML != "") {
-      firstNumber = parseInt(mainScreen.innerHTML);
-    }
-    if (firstNumber != undefined) {
-      topScreen.innerHTML = firstNumber + " " + operand.innerHTML;
-      operandToExecute = operand.innerHTML;
-      mainScreen.innerHTML = "";
-    }
-    secondNumber = firstNumber;
-    firstNumber = undefined;
-  });
-});
+let swichNumbers = () =>{
+  topScreenNumber.innerText = mainScreen.innerText;
+  mainScreen.innerText = "";
+}
+let printResoult = value=>{
+  topScreenNumber.innerText = value;
+  mainScreen.innerText = "";  
+}
 
-//calculating
-let calcButton = document.querySelector(".equal");
-calcButton.addEventListener("click", () => {
-  switch (operandToExecute) {
-    case "+":
-      resoult = secondNumber + parseInt(mainScreen.innerHTML);
-      mainScreen.innerHTML = resoult;
-      topScreen.innerHTML = "";
-      break;
-    case "-":
-      resoult = secondNumber - parseInt(mainScreen.innerHTML);
-      mainScreen.innerHTML = resoult;
-      topScreen.innerHTML = "";
-      break;
-    case "x":
-      resoult = secondNumber * parseInt(mainScreen.innerHTML);
-      mainScreen.innerHTML = resoult;
-      topScreen.innerHTML = "";
-      break;
-    case "/":
-      resoult = secondNumber / parseInt(mainScreen.innerHTML);
-      mainScreen.innerHTML = resoult;
-      topScreen.innerHTML = "";
-      break;
-  }
-});
+let clear = ()=>{
+  status = STATUS_FIRSTNUM;
+  number1 = null;
+  number2 = null;
+  operand = null;
+  mainScreen.innerText = 0;
+  topScreenNumber.innerText = "";
+  topScreenOperand.innerText = "";
+}
+let ac = document.querySelector(".ac");
+ac.addEventListener("click", clear);

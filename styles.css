@@ -93,7 +93,7 @@ button {
   font-family: digital-font, Orbitron;
 }
 
-.top-screen {
+div.top-screen > span {
   color: orange;
 }
 .main-screen {
